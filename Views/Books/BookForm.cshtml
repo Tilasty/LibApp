@@ -1,0 +1,36 @@
+﻿@model LibApp.ViewModels.BookFormViewModel
+
+@{
+    ViewBag.Title = Model.Title;
+}
+
+<h2>@Model.Title</h2>
+
+@using (Html.BeginForm("Save", "Books"))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        @Html.LabelFor(m => m.Book.Title)
+        @Html.TextBoxFor(m => m.Book.Title, new { @class = "form-control", @required = "required" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Book.ReleaseDate)
+        @Html.TextBoxFor(m => m.Book.ReleaseDate, "{0:d MMM yyyy}", new { @type = "date", @class = "form-control", @required = "required" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Book.Author)
+        @Html.TextBoxFor(m => m.Book.Author, new { @class = "form-control", @required = "required" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Book.GenreId)
+        @Html.DropDownListFor(m => m.Book.GenreId, new SelectList(Model.Genres, "Id", "Name"), "Select genre", new { @class = "form-control", @required = "required" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Book.NumberInStock)
+        @Html.TextBoxFor(m => m.Book.NumberInStock, new { type = "number", @class = "form-control", @required = "required", @min = "1", @max = "20" })
+    </div>
+
+    @Html.HiddenFor(m => m.Book.Id)
+    @Html.ValidationSummary()
+    <button type="submit" class="btn btn-primary">Save</button>
+}

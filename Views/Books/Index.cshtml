@@ -1,0 +1,56 @@
+﻿@model IEnumerable<LibApp.Models.Book>
+
+@{
+    ViewBag.Title = "Books";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Books</h2>
+
+<p>
+    <a class="btn btn-primary" asp-action="New">New Book</a>
+</p>
+
+<table id="books" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Book</th>
+            <th colspan="2">Genre</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#books').DataTable({
+                ajax: {
+                    url: "api/books",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "title",
+                        render: function (data, type, book) {
+                            return book.title
+                        }
+                    },
+                    {
+                        data: "genre.name"
+                    },
+                    {
+                        data: "id",
+                        render: function (data) {
+                            return "<a href='books/details/" + data + "'><button class='btn btn-secondary'> Details </button></a>";
+                        }
+                    }
+                ]
+            });
+        });
+
+    </script>
+}
